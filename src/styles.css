@@ -1,0 +1,100 @@
+.default {
+    margin-top: 4px;
+    font-size: large;
+    display: inline-block;
+}
+.tag-INTJ {
+    background-color: #00f;
+    color: white;
+}
+
+.tag-PROPN {
+    background-color: #f00;
+    color: white;
+}
+
+.tag-VERB {
+    background-color: #0f0;
+    color: white;
+}
+
+.tag-CCONJ {
+    background-color: #ff0;
+    color: white;
+}
+
+.tag-DURATION {
+    background-color: #0ff !important;
+    color: white;
+}
+
+.tag-NOUN {
+    background-color: #f0f !important;
+    color: white ;
+}
+
+.tag-SCONJ {
+    background-color: orange !important;
+    color: white;
+}
+
+.tag-ADP {
+    background-color: tomato !important;
+    color: white;
+}
+
+.tag-ADJ {
+    background-color: rgb(115, 120, 177) !important;
+}
+
+.tag-DET {
+    background-color: darkred !important;
+    color: white;
+}
+
+.tag-AUX {
+    background-color: darkgreen !important;
+    color: white;
+}
+
+.tag-PART {
+    background-color: darkblue !important;
+    color: white;
+}
+
+.tag-PRON {
+    background-color: darkmagenta !important;
+    color: white;
+}
+
+.tag-ADV {
+    background-color: darkcyan !important;
+    color: white;
+}
+
+.tag-CARDINAL {
+    background-color: darkorange !important;
+    color: white;
+}
+
+.tag-DATE {
+    background-color: darkgray !important;
+    color: white;
+}
+
+.tag-WRAPPER {
+    position: relative !important;
+    color: white;
+}
+
+.entity {
+    position: absolute;
+    font-size: x-small;
+    top: -16px;
+    left: 0;
+}
+
+.magnify {
+    border: 1px solid green !important;
+    scale: 1.1;
+}
