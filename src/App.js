@@ -167,7 +167,7 @@ export const App = () => {
           transform="translateX(-50%)"
           mx="auto"
           h="300px"
-          w={['100%', '55%']}
+          w={['100%', '100%', '60%', '60%']}
         >
           <Box
             bg="black"
