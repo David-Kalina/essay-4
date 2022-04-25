@@ -1,4 +1,4 @@
-import { Badge, Fade, Flex, Text } from '@chakra-ui/react'
+import { Badge, Fade, Text } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 
 interface Props {
