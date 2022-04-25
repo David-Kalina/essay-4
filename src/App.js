@@ -17,19 +17,15 @@ import {
   Textarea,
 } from '@chakra-ui/react'
 import * as React from 'react'
-import PartsOfSpeechMenu from './components/PartsOfSpeechMenu'
 import winkNLP from 'wink-nlp'
 import its from 'wink-nlp/src/its'
-import as from 'wink-nlp/src/as'
+import sentiment from 'wink-sentiment'
 import model from 'wink-eng-lite-web-model'
 import SpanComponent from './components/SpanComponent'
+import { initialText } from './text'
 
 const nlp = winkNLP(model)
 
-const initialText = `Our world is as much digital as physical, an internet-powered, real-time globe that keeps everyone only an instant away. Five hundred million tweets and over 4.2 million blogs get published daily, and each year around 4.8 zettabytes of IP traffic is used. Technology is ever-changing and ever-growing. Every year the number of transistors roughly doubles. New algorithms take advantage of the explosion in computing power to accelerate one of the fastest-growing technological trends. Machine Learning. However, as exciting as Machine Learning is as a technology, it's now without risks. Will Machine Learning be the most significant innovation in human history, or will it be one of the most catastrophic?
-
-What is Machine Learning? According to IBM, machine learning is "a branch of artificial intelligence (AI) and computer science which focuses on the use of data and algorithms to imitate the way that humans learn, gradually improving its accuracy. (Machine Learning)" For the longest time, AI has been "narrow," meaning that it performs a specific task better than humans outside of that task and serves no other purpose. For example, a narrow AI for chess, image processing, email spam filters, and even self-driving cars fall into this category. Narrow AI has exploded in the last few years and become exponentially more efficient. For humans, narrow AI is great since it allows for the automation of tedious tasks. However, some fear that AI is becoming less limited and more versatile. Some even go as far as to say that AI will become super intelligent and dwarf humans' collective intelligence and represent the majority of Earth's intelligent life in the future.
-`
 // const doc = nlp.readDoc(text)
 
 const config = {
@@ -49,6 +45,16 @@ export const App = () => {
   const [doc, setDoc] = React.useState(null)
 
   const [chakraSpans, setChakraSpans] = React.useState([])
+
+  const sentimentData = sentiment(text)
+
+  const returnSentimentEmoji = score => {
+    if (score > 0.5) {
+      return '😃'
+    } else if (score < 0.5) {
+      return '😞'
+    }
+  }
 
   const onClose = () => {
     setShowModal(false)
@@ -72,6 +78,10 @@ export const App = () => {
       }
     }
   }, [])
+
+  React.useEffect(() => {
+    if (showModal) setText('')
+  }, [showModal])
 
   React.useEffect(() => {
     let seenEntities = new Set()
@@ -123,15 +133,16 @@ export const App = () => {
             />
           )
         }
+        return null
       })
     )
   }, [doc, regex])
 
   return (
     <ChakraProvider theme={extendTheme({ config })}>
-      <Box p="4" px="6">
+      <Box p="4" px="6" pb="96">
         <HStack>
-          <Link onClick={() => setText(initialText)}>Home</Link>
+          <Link onClick={() => setText(initialText)}>Reset</Link>
           <Link onClick={() => setShowModal(true)}>Add Your Own Text</Link>
         </HStack>
         <Heading textAlign="center" mb="10">
@@ -140,6 +151,10 @@ export const App = () => {
         {!loading ? (
           <Container maxW="3xl" fontFamily="Roboto Mono" py="4" pos="relative">
             {chakraSpans}
+            <Box fontSize="3xl" textAlign="center" mt="2rem">
+              Sentiment Score: {sentimentData.score}{' '}
+              {returnSentimentEmoji(sentimentData.score)}
+            </Box>
           </Container>
         ) : (
           'Loading...'
@@ -152,7 +167,7 @@ export const App = () => {
           transform="translateX(-50%)"
           mx="auto"
           h="300px"
-          w="55%"
+          w={['100%', '55%']}
         >
           <Box
             bg="black"
@@ -171,10 +186,13 @@ export const App = () => {
       <Modal isOpen={showModal} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Custom Text</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Textarea onChange={e => setSampleText(e.target.value)} />
+            <Textarea
+              placeholder="Enter at least 40 characters for the best accuracy."
+              onChange={e => setSampleText(e.target.value)}
+            />
           </ModalBody>
 
           <ModalFooter>
